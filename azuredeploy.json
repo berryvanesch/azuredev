@@ -1,0 +1,53 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "BVE-VNET-02",
+      "metadata": { "Description": "Specify the vNet name" }
+    },
+    "addressPrefix": {
+      "type": "string",
+      "defaultvalue": "10.10.0.0/16",
+      "metadata": { "Description": "Specify address prefix for vNet" }
+    },
+    "subnetname": {
+      "type": "string",
+      "defaultValue": "BVE-SN-02",
+      "metadata": { "Description": "Specify the subnet name" }
+    },
+    "subnetPrefix": {
+      "type": "string",
+      "defaultValue": "10.10.11.0/24",
+      "metadata": { "Description": "Specify address prefix for subnet" }
+    }
+  },
+  "variables": {
+    "location": "[ResourceGroup().location]",
+    "apiVersions": {
+      "network": {
+        "virtualnetworks": "2015-06-15"
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersions').network.virtualnetworks]",
+      "location": "West Europe",
+      "name": "[parameters('vnetname')]",
+      "type": "Microsoft.Network/virtualnetworks",
+      "properties": {
+        "addressSpace": { "addressPrefixes": [ "[parameters('addressprefix')]" ] },
+        "subnets": [
+          {
+            "name": "[parameters('subnetname')]",
+            "properties": { "addressPrefix": "[parameters('subnetprefix')]" }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    }
+  }
